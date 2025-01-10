@@ -1,32 +1,53 @@
 "use client";
-import React from 'react'
-import Link from 'next/link'
-
+import React from "react";
+import Link from "next/link";
 
 function Sidebar() {
+  const toggleSide = () => {
+    const sideMenu = document.getElementById("sidebar");
+    sideMenu?.classList.toggle("hidden");
+  };
 
-    const toggleSide = () => {
-        const toggleSide = document.getElementById('toggleSide')
-        toggleSide.classList.toggle('sideshow')
-    }
-    return (
-        <div>
-            <div className=" w-1/12 will-change-auto flex flex-col top-1/2 fixed h-5/6">
+  return (
+    <div className="fixed top-1/2 left-0 transform -translate-y-1/2">
+      {/* Sidebar Toggle Button */}
+      <button
+        onClick={toggleSide}
+        className="bg-red-500 text-white p-3 rounded-md shadow-md font-medium hover:bg-red-600 transition duration-300"
+      >
+        Toggle
+      </button>
 
-                <div className=" sideshow transitioning absolute -top-48 px-5 py-10" id='toggleSide'>
-                    <ul>
-                        <li className="p-3 m-1 font-RobotoMono animateit"><Link href="/">Home</Link></li>
-                        <li className="p-3 m-1 font-RobotoMono animateit"><Link href="/attendance">Attendance</Link></li>
-                        <li className="p-3 m-1 font-RobotoMono animateit"><Link href="/marks">Marks</Link></li>
-                        <li className="p-3 m-1 font-RobotoMono animateit"><Link href="/library">Library</Link></li>
-                    </ul>
-                </div>
-                <button onClick={() => { toggleSide() }} className=' bg-red-400 font-RobotoMono absolute top-16'>
-                    toggle
-                </button>
-            </div>
-        </div>
-    )
+      {/* Sidebar Content */}
+      <div
+        id="sidebar"
+        className="hidden flex-col bg-gray-800 text-white p-5 rounded-md shadow-md mt-4 w-48"
+      >
+        <ul className="space-y-4">
+          <li className="hover:underline">
+            <Link href="/" className="text-lg font-medium">
+              Home
+            </Link>
+          </li>
+          <li className="hover:underline">
+            <Link href="/attendance" className="text-lg font-medium">
+              Attendance
+            </Link>
+          </li>
+          <li className="hover:underline">
+            <Link href="/marks" className="text-lg font-medium">
+              Marks
+            </Link>
+          </li>
+          <li className="hover:underline">
+            <Link href="/library" className="text-lg font-medium">
+              Library
+            </Link>
+          </li>
+        </ul>
+      </div>
+    </div>
+  );
 }
 
-export default Sidebar
+export default Sidebar;

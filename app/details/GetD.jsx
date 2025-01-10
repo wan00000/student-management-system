@@ -1,153 +1,109 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+
 function GetD() {
-  const [details, SetDetails] = React.useState([]);
-  React.useEffect(() => {
-    axios.get("/api/user/details")
+  const [details, setDetails] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    axios
+      .get("/api/user/details")
       .then((res) => {
-        SetDetails(res.data);
+        console.log("API Response:", res.data);
+        if (Array.isArray(res.data)) {
+          setDetails(res.data);
+        } else if (res.data && typeof res.data === "object") {
+          console.warn("API returned an object instead of an array:", res.data);
+          setDetails([res.data]); // Convert object to array
+        } else {
+          console.warn("Unexpected response format:", res.data);
+          setDetails([]);
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error fetching user details:", err);
+        setError("Failed to load user details. Please try again later.");
+        setLoading(false);
       });
   }, []);
 
-  if (details.length === 0) {
+  const handleNavigate = () => {
+    router.push("/details/post"); // Navigate to the data input page
+  };
+
+  if (loading) {
     return (
-      <div className=' w-full h-screen flex items-center justify-center'>
-        <h1 className=' font-RobotoMono text-2xl text-zinc-50'>Loading...</h1>
-      </div>
-    )
-  } else if (details.length === 1) {
-    return (
-      <div className=" w-full">
-
-        {details && details.map((detail, index) => {
-          console.log(detail);
-          return (
-            <div
-              key={index}
-              className=" w-full flex flex-col justify-center items-center h-screen"
-            >
-              <h1 className=" text-4xl font-RobotoMono text-violet-500">Student Profile</h1>
-              <div className=" w-2/5 flex p-1 rounded-lg m-2 bg-purple-700">
-                <p className=" p-2 w-1/2 bg-slate-100 m-1 font-RobotoMono rounded-md enlarge">
-                  Register No
-                </p>
-                <span className=" p-2 w-1/2 bg-slate-300 font-RobotoMono rounded-md m-1 enlarge">
-                  {detail.regNo}
-                </span>
-              </div>
-
-              <div className=" w-2/5 flex bg-purple-700 p-1 rounded-lg m-2">
-                <p className=" p-2 w-1/2 bg-slate-100 m-1 font-RobotoMono rounded-md enlarge">
-                  Year
-                </p>
-                <span className=" p-2 w-1/2 bg-slate-300 font-RobotoMono rounded-md m-1 enlarge">
-                  {detail.year}
-                </span>
-              </div>
-
-              <div className=" w-2/5 flex bg-purple-700 p-1 rounded-lg m-2">
-                <p className=" p-2 w-1/2 bg-slate-100 m-1 font-RobotoMono rounded-md enlarge">
-                  Teacher
-                </p>
-                <span className=" p-2 w-1/2 bg-slate-300 font-RobotoMono rounded-md m-1 enlarge">
-                  {detail.tutor}
-                </span>
-              </div>
-
-              <div className=" w-2/5 flex bg-purple-500 p-1 rounded-lg m-2">
-                <p className=" p-2 w-1/2 bg-slate-100 m-1 font-RobotoMono rounded-md enlarge">
-                  Department
-                </p>
-                <span className=" p-2 w-1/2 bg-slate-300 font-RobotoMono rounded-md m-1 enlarge">
-                  {detail.department}
-                </span>
-              </div>
-
-              <div className=" w-2/5 flex bg-purple-500 p-1 rounded-lg m-2">
-                <p className=" p-2 w-1/2 bg-slate-100 m-1 font-RobotoMono rounded-md enlarge">
-                  Address
-                </p>
-                <span className=" p-2 w-1/2 bg-slate-300 font-RobotoMono rounded-md m-1 enlarge">
-                  {detail.address}
-                </span>
-              </div>
-
-              <div className=" w-2/5 flex bg-purple-500 p-1 rounded-lg m-2">
-                <p className=" p-2 w-1/2 bg-slate-100 m-1 font-RobotoMono rounded-md enlarge">
-                  Phone Number
-                </p>
-                <span className=" p-2 w-1/2 bg-slate-300 font-RobotoMono rounded-md m-1 enlarge">
-                  {detail.phone}
-                </span>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    );
-  } else {
-    return (
-      <div className=" w-full h-screen flex flex-col justify-center items-center">
-        <div className="heading  flex p-2 rounded w-10/12 justify-between bg-purple-900 ">
-          <p className="w-1/6 bg-slate-50 m-1 p-1 font-RobotoMono text-xl font-extrabold rounded enlarge">
-            regNo
-          </p>
-          <p className="w-1/6 bg-slate-50 m-1 p-1 font-RobotoMono text-xl font-extrabold rounded enlarge">
-            tutor
-          </p>
-          <p className="w-1/6 bg-slate-50 m-1 p-1 font-RobotoMono text-xl font-extrabold rounded enlarge">
-            department
-          </p>
-          <p className="w-1/6 bg-slate-50 m-1 p-1 font-RobotoMono text-xl font-extrabold rounded enlarge">
-            year
-          </p>
-          <p className="w-1/6 bg-slate-50 m-1 p-1 font-RobotoMono text-xl font-extrabold rounded enlarge">
-            address
-          </p>
-          <p className="w-1/6 bg-slate-50 m-1 p-1 font-RobotoMono text-xl font-extrabold rounded enlarge">
-            phone
-          </p>
-        </div>
-        {details && details.map((detail, index) => {
-          console.log(detail);
-          return (
-            <div key={index} className="w-10/12 bg-purple-700 rounded-md hover:transition-colors hover:bg-pink-400">
-              <SingleStudent {...detail} />
-            </div>
-          );
-        })}
+      <div className="w-full h-screen flex items-center justify-center bg-gray-900 text-white">
+        <h1 className="font-mono text-2xl">Loading...</h1>
       </div>
     );
   }
-}
 
-export default GetD;
-
-function SingleStudent(student) {
-  return (
-    <>
-      <div className=" heading flex p-2 w-full justify-between  ">
-        <p className=" w-1/6 bg-slate-50 mx-1 p-1 rounded font-RobotoMono enlarge">
-          {student.regNo}
-        </p>
-        <p className=" w-1/6 bg-slate-50 mx-1 p-1 rounded font-RobotoMono enlarge">
-          {student.tutor}
-        </p>
-        <p className=" w-1/6 bg-slate-50 mx-1 p-1 rounded font-RobotoMono enlarge">
-          {student.department}
-        </p>
-        <p className=" w-1/6 bg-slate-50 mx-1 p-1 rounded font-RobotoMono enlarge">
-          {student.year}
-        </p>
-        <p className=" w-1/6 bg-slate-50 mx-1 p-1 rounded font-RobotoMono enlarge">
-          {student.address}
-        </p>
-        <p className=" w-1/6 bg-slate-50 mx-1 p-1 rounded font-RobotoMono enlarge">
-          {student.phone}
-        </p>
+  if (error) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center bg-gray-900 text-red-500">
+        <h1 className="font-mono text-2xl">{error}</h1>
       </div>
-    </>
+    );
+  }
+
+  if (details.length === 0) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center bg-gray-900 text-white">
+        <h1 className="font-mono text-2xl">No user details found.</h1>
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-full min-h-screen bg-gray-100 p-6">
+      <div className="max-w-6xl mx-auto mt-16">
+        <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">
+          User Details
+        </h1>
+        <div className="overflow-x-auto bg-white shadow-lg rounded-lg">
+          {/* Table Header */}
+          <div className="grid grid-cols-7 gap-4 p-4 bg-gray-800 text-white text-sm font-bold uppercase">
+            <div>Reg No</div>
+            <div>Email</div>
+            <div>Tutor</div>
+            <div>Department</div>
+            <div>Year</div>
+            <div>Address</div>
+            <div>Phone</div>
+          </div>
+          {/* Table Body */}
+          {details.map((student, index) => (
+            <div
+              key={index}
+              className="grid grid-cols-7 gap-4 p-4 bg-gray-100 hover:bg-gray-200 transition-colors text-sm"
+            >
+              <div>{student.regNo}</div>
+              <div>{student.email}</div>
+              <div>{student.tutor}</div>
+              <div>{student.department}</div>
+              <div>{student.year}</div>
+              <div>{student.address}</div>
+              <div>{student.phone}</div>
+            </div>
+          ))}
+        </div>
+        <div className="mt-8 flex justify-center">
+          <button
+            onClick={handleNavigate}
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          >
+            Add User Details
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
 
+export default GetD;

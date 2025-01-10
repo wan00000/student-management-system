@@ -1,115 +1,96 @@
-"use client"
-import React from 'react'
-import axios from 'axios'
+"use client";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 function GetMarks() {
-    const [details, SetDetails] = React.useState([])
-    React.useEffect(() => {
-        axios.get('/api/user/marks')
-            .then(res => {
-                SetDetails(res.data)
-                console.log(res.data)
-            })
-            .catch(err => {
-                console.log(err)
-            })
-    }, [])
-    if (details.length === 0) {
-        return (
-            <div className=' w-full h-screen flex items-center justify-center'>
-                <h1 className=' font-RobotoMono text-2xl text-zinc-50'>Loading...</h1>
-            </div>
-        )
-    }
-    // else if (details.length === 1) {
-    //     return (
-    //         <div className=' w-full'>
-    //             <h1>Student Marks</h1>
-    //             {
-    //                 details.map((detail) => {
-    //                     return (
-    //                         <div className='w-full'>
-    //                             <h1>Student Name: {detail.email}</h1>
-    //                             <h1>Student Graphics: {detail.graphics}</h1>
-    //                             <h1>Student IOT: {detail.iot}</h1>
-    //                             <h1>Student WebTech No: {detail.webtech}</h1>
-    //                             <h1>Student StLab: {detail.stlab}</h1>
-    //                             <h1>Student Project: {detail.project}</h1>
-    //                         </div>
-    //                     )
-    //                 })
-    //             }
-    //         </div>
-    //     )
-    // }
-    else {
-        return (
-            <div className='w-full h-screen flex flex-col justify-center items-center '>
-                <div className="div w-full flex flex-col justify-center items-center">
-                    <h1>Teacher Profile</h1>
+  const [details, setDetails] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
-                    <div className="heading flex py-0.5 rounded w-10/12 justify-between bg-fuchsia-800  ">
-                        <p className="w-1/6 bg-slate-50 m-1 p-1 font-RobotoMono text-xl font-extrabold rounded enlarge">
-                            email
-                        </p>
-                        <p className="w-1/6 bg-slate-50 m-0.5 p-1 font-RobotoMono text-xl font-extrabold rounded enlarge">
-                            Testname
-                        </p>
-                        <p className="w-1/6 bg-slate-50 m-1 p-1 font-RobotoMono text-xl font-extrabold rounded enlarge">
-                            Graphics
-                        </p>
-                        <p className="w-1/6 bg-slate-50 m-1 p-1 font-RobotoMono text-xl font-extrabold rounded enlarge">
-                            IOT
-                        </p>
-                        <p className="w-1/6 bg-slate-50 m-1 p-1 font-RobotoMono text-xl font-extrabold rounded enlarge">
-                            WebTech
-                        </p>
-                        <p className="w-1/6 bg-slate-50 m-1 p-1 font-RobotoMono text-xl font-extrabold rounded enlarge">
-                            STLab
-                        </p>
-                        <p className="w-1/6 bg-slate-50 m-1 p-1 font-RobotoMono text-xl font-extrabold rounded enlarge">
-                            Project
-                        </p>
-                        <p className="w-1/6 bg-slate-50 m-1 p-1 font-RobotoMono text-xl font-extrabold rounded enlarge">
-                            Total
-                        </p>
-                    </div>
+  useEffect(() => {
+    axios
+      .get("/api/user/marks")
+      .then((res) => {
+        setDetails(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error fetching marks:", err);
+        setLoading(false);
+      });
+  }, []);
 
-                    {details && details.map((detail) => {
-                        return (
-                            <div className="flex p-0.5 rounded w-10/12 justify-between bg-fuchsia-500 hover:transition-all hover:bg-amber-100 ">
-                                <p className="w-1/6 bg-slate-50 m-1 p-1 font-RobotoMono text-xl rounded enlarge">
-                                    {detail.email}
-                                </p>
-                                <p className="w-1/6 bg-slate-50 m-1 p-1 font-RobotoMono text-xl  rounded enlarge">
-                                    {detail.testname}
-                                </p>
-                                <p className="w-1/6 bg-slate-50 m-1 p-1 font-RobotoMono text-xl  rounded enlarge">
-                                    {detail.graphics}
-                                </p>
-                                <p className="w-1/6 bg-slate-50 m-1 p-1 font-RobotoMono text-xl rounded enlarge">
-                                    {detail.iot}
-                                </p>
-                                <p className="w-1/6 bg-slate-50 m-1 p-1 font-RobotoMono text-xl rounded enlarge">
-                                    {detail.webtech}
-                                </p>
-                                <p className="w-1/6 bg-slate-50 m-1 p-1 font-RobotoMono text-xl  rounded enlarge">
-                                    {detail.stlab}
-                                </p>
-                                <p className="w-1/6 bg-slate-50 m-1 p-1 font-RobotoMono text-xl  rounded enlarge">
-                                    {detail.project}
-                                </p>
-                                <p className="w-1/6 bg-slate-50 m-1 p-1 font-RobotoMono text-xl rounded enlarge">
-                                    {Number(detail.graphics) + Number(detail.iot) + Number(detail.webtech) + Number(detail.stlab) + Number(detail.project)}
-                                </p>
-                            </div>
-                        )
-                    }
-                    )}
-                </div>
+  if (loading) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center bg-gray-900 text-white">
+        <h1 className="text-2xl font-mono">Loading...</h1>
+      </div>
+    );
+  }
+
+  if (details.length === 0) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center bg-gray-900 text-white">
+        <h1 className="text-2xl font-mono">No marks data available.</h1>
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-full min-h-screen bg-gray-50 p-6">
+      <div className="max-w-6xl mx-auto">
+        <h1 className="text-3xl font-bold text-center mb-8 text-gray-700">Marks Overview</h1>
+        <div className="overflow-x-auto bg-white shadow rounded-lg">
+          {/* Table Header */}
+          <div className="grid grid-cols-8 gap-4 p-4 bg-gray-800 text-white font-semibold uppercase">
+            <div>Email</div>
+            <div>Test</div>
+            <div>Graphics</div>
+            <div>IoT</div>
+            <div>WebTech</div>
+            <div>STLab</div>
+            <div>Project</div>
+            <div>Total</div>
+          </div>
+          {/* Marks Rows */}
+          {details.map((detail, index) => (
+            <div
+              key={index}
+              className="grid grid-cols-8 gap-4 p-4 bg-gray-100 hover:bg-gray-200 transition-colors border-b"
+            >
+              <div className="truncate">{detail.email}</div>
+              <div>{detail.testname}</div>
+              <div>{detail.graphics}</div>
+              <div>{detail.iot}</div>
+              <div>{detail.webtech}</div>
+              <div>{detail.stlab}</div>
+              <div>{detail.project}</div>
+              <div>
+                {[
+                  detail.graphics,
+                  detail.iot,
+                  detail.webtech,
+                  detail.stlab,
+                  detail.project,
+                ]
+                  .map(Number)
+                  .reduce((sum, val) => sum + val, 0)}
+              </div>
             </div>
-        )
-    }
+          ))}
+        </div>
+        <div className="mt-8 flex justify-center">
+          <button
+            onClick={() => router.push("/marks/post")}
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          >
+            Add Marks
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 }
 
-export default GetMarks
+export default GetMarks;
