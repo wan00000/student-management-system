@@ -39,9 +39,9 @@ function GetAttendance() {
 
   const renderTable = (data, title) => (
     <div className="w-full flex flex-col items-center mb-12">
-      <h1 className="text-3xl font-bold text-purple-700 mb-6">{title}</h1>
-      <div className="w-full max-w-6xl">
-        <div className="grid grid-cols-4 gap-4 bg-purple-600 text-white font-semibold p-4 rounded-t-md">
+      <h1 className="text-3xl font-bold text-gray-800 mb-6 mt-10">{title}</h1>
+      <div className="w-full max-w-6xl shadow-lg">
+        <div className="grid grid-cols-4 gap-4 bg-gray-800 text-white font-semibold p-4 rounded-t-md">
           <div>Email</div>
           <div>Book Name</div>
           <div>Issued</div>
@@ -50,7 +50,7 @@ function GetAttendance() {
         {data.map((item, index) => (
           <div
             key={index}
-            className="grid grid-cols-4 gap-4 p-4 bg-purple-100 hover:bg-purple-200 transition-colors border-b"
+            className="grid grid-cols-4 gap-4 p-4 bg-gray-100 hover:bg-gray-200 transition-colors border-b"
           >
             <div className="truncate">{item.email}</div>
             <div className="truncate">{item.bookName}</div>

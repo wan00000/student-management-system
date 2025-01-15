@@ -2,6 +2,7 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import { useCookies } from 'react-cookie'
+import { useRouter } from "next/navigation";
 
 function Login() {
     const [user, setUser] = useState({
@@ -9,6 +10,7 @@ function Login() {
         password: "",
     })
     const [cookie, SetCookie] = useCookies(["token"]);
+    const router = useRouter();
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -23,7 +25,8 @@ function Login() {
                 SetCookie("token", res.data.token, { path: "/" });
                 console.log("Token set in cookies:", res.data.token);
             }
-            window.location.href = "/"
+            router.push("/details");
+            // window.location.href = "/";
         } catch (error) {
             console.error("Error during login:", error);
         }

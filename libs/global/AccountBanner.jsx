@@ -32,8 +32,8 @@ function AccountBanner() {
             ) : (
                 <div className="flex items-center justify-end">
                     <div className="flex items-center justify-center">
-                        <Link href="/signup"><p className="text-white p-2 bg-blend-difference bg-purple-500 rounded font-RobotoMono  mr-2">Signup</p></Link>
-                        <Link href="/login"><p className="text-white  p-2 bg-blend-difference bg-purple-500 rounded font-RobotoMono">Login</p></Link>
+                        <Link href="/signup"><p className="text-white p-2 bg-blend-difference bg-gray-800 rounded font-RobotoMono  mr-2">Signup</p></Link>
+                        <Link href="/login"><p className="text-white  p-2 bg-blend-difference bg-gray-800 rounded font-RobotoMono">Login</p></Link>
                     </div>
                 </div>
             )}

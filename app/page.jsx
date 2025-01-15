@@ -1,9 +1,9 @@
 import React from 'react'
-import GetD from "./details/GetD"
+import GetH from "./home/GetH"
 function page() {
   return (
     <div>
-      <GetD />
+      <GetH />
     </div>
   )
 }

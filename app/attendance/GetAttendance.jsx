@@ -40,19 +40,19 @@ function GetAttendance() {
 
   return (
     <div className="w-full min-h-screen bg-gray-100 p-6 flex flex-col items-center">
-      <h1 className="text-3xl font-bold text-purple-700 mb-6">Student Attendance</h1>
-      <div className="w-full max-w-4xl">
+      <h1 className="text-3xl font-bold text-gray-800 mb-6 mt-10">Student Attendance</h1>
+      <div className="w-full max-w-4xl shadow-lg">
         {/* Header */}
-        <div className="grid grid-cols-3 gap-4 bg-purple-600 text-white font-semibold p-4 rounded-t-md">
+        <div className="grid grid-cols-3 gap-4 bg-gray-800 text-white font-semibold p-4 rounded-t-md">
           <div>Email</div>
           <div>Absent</div>
-          <div>On Duty</div>
+          <div>Excused</div>
         </div>
         {/* Attendance Data */}
         {details.map((detail) => (
           <div
             key={detail.email}
-            className="grid grid-cols-3 gap-4 bg-purple-100 hover:bg-purple-200 transition-colors p-4 border-b"
+            className="grid grid-cols-3 gap-4 bg-gray-100 hover:bg-gray-200 transition-colors p-4 border-b"
           >
             <div className="truncate">{detail.email}</div>
             <div>{removeDuplicates(stringToList(detail.absent))}</div>

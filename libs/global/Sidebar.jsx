@@ -25,7 +25,7 @@ function Sidebar() {
       >
         <ul className="space-y-4">
           <li className="hover:underline">
-            <Link href="/" className="text-lg font-medium">
+            <Link href="/details" className="text-lg font-medium">
               Home
             </Link>
           </li>

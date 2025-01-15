@@ -69,9 +69,9 @@ function GetD() {
         <div className="overflow-x-auto bg-white shadow-lg rounded-lg">
           {/* Table Header */}
           <div className="grid grid-cols-7 gap-4 p-4 bg-gray-800 text-white text-sm font-bold uppercase">
-            <div>Reg No</div>
+            <div>Matric No</div>
             <div>Email</div>
-            <div>Tutor</div>
+            <div>Course</div>
             <div>Department</div>
             <div>Year</div>
             <div>Address</div>
@@ -93,14 +93,14 @@ function GetD() {
             </div>
           ))}
         </div>
-        <div className="mt-8 flex justify-center">
-          <button
-            onClick={handleNavigate}
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-          >
-            Add User Details
-          </button>
-        </div>
+      </div>
+      <div className="mt-8 flex justify-center">
+        <button
+          onClick={handleNavigate}
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        >
+          Add User Details
+        </button>
       </div>
     </div>
   );

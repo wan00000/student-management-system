@@ -46,11 +46,11 @@ function GetMarks() {
           <div className="grid grid-cols-8 gap-4 p-4 bg-gray-800 text-white font-semibold uppercase">
             <div>Email</div>
             <div>Test</div>
-            <div>Graphics</div>
-            <div>IoT</div>
-            <div>WebTech</div>
-            <div>STLab</div>
-            <div>Project</div>
+            <div>Cloud Computing</div>
+            <div>Network Security</div>
+            <div>Artificial Intelligence</div>
+            <div>Data Structure</div>
+            <div>Python Programming</div>
             <div>Total</div>
           </div>
           {/* Marks Rows */}
