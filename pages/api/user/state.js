@@ -9,7 +9,7 @@ export default async function handler(req, res) {
     const { method } = req
     if (method === "GET") {
         const { token } = req.cookies;
-        jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+        jwt.verify(token, secret('JWT_SECRET'), (err, user) => {
             if (err) res.status(401).json('Unauthorized')
             else {
                 res.status(200).json({ user: user });

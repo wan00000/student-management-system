@@ -37,7 +37,7 @@ export default async function handler(req, res) {
                     console.log("Password match:", match);
 
                     if (match) {
-                        const token = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: '1h' });
+                        const token = jwt.sign(user, secret('JWT_SECRET'), { expiresIn: '1h' });
                         console.log("JWT token generated:", token);
                         return res.status(200).json({ token: token, user: user });
                     } else {

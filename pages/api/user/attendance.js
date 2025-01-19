@@ -16,7 +16,7 @@ export default async function handler(req, res) {
     const { method } = req;
     const { token } = req.cookies;
     if (method === 'POST') {
-        verify(token, process.env.JWT_SECRET, async (err, user) => {
+        verify(token, secret('JWT_SECRET'), async (err, user) => {
             if (err) res.status(401).json({ 'Unauthorized': err })
             if (user.role === 'student') res.status(401).json({ 'Unauthorized': 'Student' })
             else if (user) {
@@ -28,7 +28,7 @@ export default async function handler(req, res) {
             }
         });
     } else if (method === 'GET') {
-        verify(token, process.env.JWT_SECRET, async (err, user) => {
+        verify(token, secret('JWT_SECRET'), async (err, user) => {
             if (err) res.status(401).json({ 'Unauthorized': err })
             if (user.role === 'student') {
                 returnByEmail(user.email, req, res)

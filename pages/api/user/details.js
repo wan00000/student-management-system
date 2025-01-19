@@ -10,7 +10,7 @@ export default async function handler(req, res) {
     console.log("Token received:", token);
 
     if (method === 'POST') {
-        verify(token, process.env.JWT_SECRET, async (err, user) => {
+        verify(token, secret('JWT_SECRET'), async (err, user) => {
             if (err) {
                 console.error("JWT verification error:", err);
                 return res.status(401).json({ 'Unauthorized': err });
@@ -53,9 +53,9 @@ export default async function handler(req, res) {
             }
         });
     } else if (method === 'GET') {
-        verify(token, process.env.JWT_SECRET, async (err, user) => {
+        verify(token, secret('JWT_SECRET'), async (err, user) => {
             if (err) {
-                console.error("JWT verification error:", err, "\nJWT_SECRET:", process.env.JWT_SECRET);
+                console.error("JWT verification error:", err, "\nJWT_SECRET:", secret('JWT_SECRET'));
                 return res.status(401).json({ 'Unauthorized': err });
             }
             console.log("User verified:", user);
